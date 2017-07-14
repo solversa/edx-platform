@@ -5,6 +5,7 @@ Support for request messages to be shown to the user.
 from enum import Enum
 
 from django.contrib import messages
+from openedx.core.djangolib.markup import Text
 
 USER_MESSAGE_TAG = 'edx-user-message'
 
@@ -64,7 +65,7 @@ def register_user_message(request, message_type, message, title=None):
     Add a message to be shown to the user in the next page.
     """
     assert isinstance(message_type, UserMessageType)
-    messages.add_message(request, message_type.value, message, extra_tags=USER_MESSAGE_TAG)
+    messages.add_message(request, message_type.value, Text(message), extra_tags=USER_MESSAGE_TAG)
 
 
 def register_info_message(request, message, **kwargs):
@@ -115,7 +116,10 @@ def user_messages(request):
         """
         Creates a user message from a Django message.
         """
-        return UserMessage(type=_get_message_type_for_level(message.level), message_html=message)
+        return UserMessage(
+            type=_get_message_type_for_level(message.level),
+            message_html=unicode(message.message),
+        )
 
     django_messages = messages.get_messages(request)
     return (_create_user_message(message) for message in django_messages if USER_MESSAGE_TAG in message.tags)

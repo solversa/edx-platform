@@ -14,8 +14,8 @@ from openedx.core.djangoapps.util.user_messages import user_messages
     <div class="page-banner">
         <div class="user-messages">
             % for message in user_messages(request):
-                <div class="alert ${HTML(message.css_class)}" role="alert">
-                    <span class="icon icon-alert fa ${HTML(message.icon_class)}" aria-hidden="true"></span>
+                <div class="alert ${message.css_class}" role="alert">
+                    <span class="icon icon-alert fa ${message.icon_class}" aria-hidden="true"></span>
                     ${HTML(message.message_html)}
                 </div>
             % endfor
