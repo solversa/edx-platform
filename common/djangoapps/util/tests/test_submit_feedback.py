@@ -293,7 +293,7 @@ class SubmitFeedbackTest(EnterpriseServiceMockMixin, TestCase):
         if not site_name:
             site_name = ""
         else:
-            site_name = site_name.replace(".","_")
+            site_name = site_name.replace(".", "_")
 
         ticket = self._build_zendesk_ticket(
             recipient=fake_get_value("email_from_address"),
