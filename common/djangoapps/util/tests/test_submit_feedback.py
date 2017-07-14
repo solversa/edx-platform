@@ -289,7 +289,7 @@ class SubmitFeedbackTest(EnterpriseServiceMockMixin, TestCase):
         zendesk_mock_instance.create_ticket.return_value = ticket_id
 
         # Format site_name to handle None case
-        site_name = fake_get_value("site_name")
+        site_name = fake_get_value("SITE_NAME")
         if not site_name:
             site_name = ""
         else:
