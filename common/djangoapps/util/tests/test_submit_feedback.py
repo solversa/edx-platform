@@ -288,13 +288,20 @@ class SubmitFeedbackTest(EnterpriseServiceMockMixin, TestCase):
         ticket_id = 42
         zendesk_mock_instance.create_ticket.return_value = ticket_id
 
+        # Format site_name to handle None case
+        site_name = fake_get_value("site_name")
+        if not site_name:
+            site_name = ""
+        else:
+            site_name = site_name.replace(".","_")
+
         ticket = self._build_zendesk_ticket(
             recipient=fake_get_value("email_from_address"),
             name=fields["name"],
             email=fields["email"],
             subject=fields["subject"],
             details=fields["details"],
-            tags=[fields["issue_type"], "LMS", "site_name_{}".format(str(fake_get_value("site_name")).replace(".","_"))]
+            tags=[fields["issue_type"], "LMS", "site_name_{}".format(site_name)]
         )
 
         ticket_update = self._build_zendesk_ticket_update(TEST_REQUEST_HEADERS)
